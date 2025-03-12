@@ -1,17 +1,39 @@
-# voyage-tasks
+# 📜 README for DnDnDB Backend
 
-Your project's `readme` is as important to success as your code. For 
-this reason you should put as much care into its creation and maintenance
-as you would any other component of the application.
+Welcome to the backend for **DnDnDB**! This project is built using **Django REST Framework (DRF)** with a **MySQL** database to support a **React + TypeScript** frontend.
 
-If you are unsure of what should go into the `readme` let this article,
-written by an experienced Chingu, be your starting point - 
-[Keys to a well written README](https://tinyurl.com/yk3wubft).
+This repository contains the API for managing session data, assets, authentication, and other backend operations.
 
-And before we go there's "one more thing"! Once you decide what to include
-in your `readme` feel free to replace the text we've provided here.
+---
 
-> Own it & Make it your Own!
+## 📌 Frontend Repository
+
+The frontend for this project can be found here:  
+[DnDnDB Frontend](https://github.com/chingu-voyages/V54-tier3-team-38-fe)
+
+---
+
+## 🚀 Tech Stack
+
+- **Backend**: Django REST Framework (DRF)
+- **Database**: MySQL
+- **Authentication**: JWT (using `djangorestframework_simplejwt`)
+- **CORS Handling**: `django-cors-headers`
+- **Environment Management**: `django-environ`
+
+---
+
+## 🛠️ Installation & Setup
+
+### 🔹 Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+- **Python** (≥ 3.10)
+- **pip** (Python package manager)
+- **MySQL** (Ensure MySQL is running)
+- **Virtual Environment** (`venv`) (Optional but recommended)
+
 
 ## Team Documents
 
@@ -34,8 +56,15 @@ Everyone on your team should add their name along with a link to their GitHub
 your repo access and to practice PR'ing with your team *before* you start
 coding!
 
-- Teammate name #1: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
-- Teammate name #2: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
+### 🔹 Step 1: Clone the Repository
 
-   ...
-- Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
+
+git clone https://github.com/chingu-voyages/V54-tier3-team-38-be.git
+cd V54-tier3-team-38-be
+
+- Erica Holden: [GitHub](https://github.com/ericadev) / [LinkedIn](https://linkedin.com/in/ericadev)
+- Eoin McDonnell [GitHub](https://github.com/oldmcdonnell) / [LinkedIn](https://linkedin.com/in/mcdonnell.eoin)
+
+## 🌎 Deployment
+The backend will be deployed using Fly.io or another cloud provider. Stay tuned for updates.
+
