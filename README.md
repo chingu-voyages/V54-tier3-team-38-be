@@ -38,9 +38,51 @@ Before you begin, ensure you have the following installed on your system:
 
 ### 🔹 Step 1: Clone the Repository
 
+git clone https://github.com/chingu-voyages/V54-tier3-team-38-be.git
+cd V54-tier3-team-38-be
+
+
+
 ```bash
 git clone https://github.com/chingu-voyages/V54-tier3-team-38-be.git
 cd V54-tier3-team-38-be
+
+```
+
+### 🔹 Step 2: Set up a Virtual environment
+
+```bash
+python -m venv env_dndndb
+
+
+```
+
+
+# Activate it
+# On macOS/Linux:
+source env_dndndb/bin/activate
+# On Windows:
+env_dndndb\Scripts\activate
+
+
+```bash
+
+pip install -r requirements.txt
+
+
+CREATE DATABASE dndndb;
+
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py createsuperuser
+
+python manage.py runserver
+
+```
+
+server should be at 
+http://127.0.0.1:8000/
 
 - Erica Holden: [GitHub](https://github.com/ericadev) / [LinkedIn](https://linkedin.com/in/ericadev)
 - Eoin McDonnell [GitHub](https://github.com/oldmcdonnell) / [LinkedIn](https://linkedin.com/in/mcdonnell.eoin)

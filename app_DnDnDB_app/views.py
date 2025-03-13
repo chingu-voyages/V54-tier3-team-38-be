@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import SessionData
-from .serializers import SessionDataSerializer
+from .serializers import *
 
 # get_serializer() function
 def get_serializer():
@@ -37,3 +37,11 @@ class SessionDataViewSet(viewsets.ModelViewSet):
     queryset = SessionData.objects.all()
     serializer_class = SessionDataSerializer
     permission_classes = [IsAuthenticated]  # Adjust as needed
+
+class AssetViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows assets to be viewed or edited.
+    """
+    queryset = Asset.objects.all()
+    serializer_class = AssetSerializer
+    # permission_classes = [IsAuthenticatedOrReadOnly]  # ✅ Allows read access to everyone, but write access to authenticated users
