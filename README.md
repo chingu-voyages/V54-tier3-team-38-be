@@ -60,11 +60,13 @@ python -m venv env_dndndb
 
 # Activate it
 # On macOS/Linux:
+```bash
 source env_dndndb/bin/activate
 # On Windows:
 env_dndndb\Scripts\activate
+```
 
-
+# Create migrations
 ```bash
 
 pip install -r requirements.txt
