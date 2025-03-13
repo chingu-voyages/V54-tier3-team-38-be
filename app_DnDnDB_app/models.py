@@ -10,11 +10,12 @@ class SessionData(models.Model):
         return f"Session {self.session_id}"
     
 
-class Asset (models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    image = models.ImageField(upload_to='assets/')
-    # Add other fields as needed
+class Asset(models.Model):
+    name = models.CharField(max_length=100, unique=True)  
+    description = models.TextField(blank=True, null=True)  
+    image = models.ImageField(upload_to='assets/', blank=True, null=True)  # ✅ Image is optional
+    created_at = models.DateTimeField(auto_now_add=True)  # ✅ Auto timestamp when created
+    updated_at = models.DateTimeField(auto_now=True)  # ✅ Auto timestamp when updated
 
     def __str__(self):
         return self.name

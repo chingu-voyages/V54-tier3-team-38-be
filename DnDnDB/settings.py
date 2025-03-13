@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# base dir
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-&hd7ph5y_sjo7q5npfjv2-n&!53_wob6(8vtm5j0bgfalr3a^3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -37,9 +38,40 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app_DnDnDB_app',
+    'corsheaders',
+    'rest_framework',
 ]
 
+APP_NAME = os.getenv("FLY_APP_NAME", None)
+
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{APP_NAME}.fly.dev",  # ✅ App nae
+    'https://art-social-seven.vercel.app'  # ✅ Add frontend domain
+] if APP_NAME else []
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
+CORS_ALLOW_METHODS = [
+'GET',
+'POST',
+'PUT',
+'PATCH',
+'DELETE',
+'OPTIONS',
+]
+CORS_ALLOW_HEADERS = [
+'Content-Type',
+'Authorization',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,6 +101,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DnDnDB.wsgi.application'
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+DATABASE_PATH = os.getenv("DATABASE_PATH", None)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': DATABASE_PATH if DATABASE_PATH else BASE_DIR / 'db.sqlite3',  # ✅ Use env var or default to SQLite
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -77,6 +119,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'primary_db',
+        'USER': 'your_user',
+        'PASSWORD': 'your_password',
+        'HOST': 'primary_host',
+        'PORT': '5432',
+    },
+    'replica': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'replica_db',
+        'USER': 'your_user',
+        'PASSWORD': 'your_password',
+        'HOST': 'replica_host',
+        'PORT': '5432',
     }
 }
 
