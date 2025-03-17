@@ -46,11 +46,10 @@ cd V54-tier3-team-38-be
 ```
 
 Set up environment variables for the following on your system to point at the postgres database
-* DNDNDB_HOST
-* DNDNDB_NAME
-* DNDNDB_USER
-* DNDNDB_PASSWORD
-* DNDNDB_PORT
+* POSTGRES_HOST
+* POSTGRES_DATABASE
+* POSTGRES_USER
+* POSTGRES_PASSWORD
 
 ### 🔹 Step 2: Set up a Virtual environment
 
