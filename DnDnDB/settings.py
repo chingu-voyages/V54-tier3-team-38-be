@@ -103,38 +103,17 @@ WSGI_APPLICATION = 'DnDnDB.wsgi.application'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DATABASE_PATH = os.getenv("DATABASE_PATH", None)
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DATABASE_PATH if DATABASE_PATH else BASE_DIR / 'db.sqlite3',  # ✅ Use env var or default to SQLite
-    }
-}
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'primary_db',
-        'USER': 'your_user',
-        'PASSWORD': 'your_password',
-        'HOST': 'primary_host',
-        'PORT': '5432',
-    },
-    'replica': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'replica_db',
-        'USER': 'your_user',
-        'PASSWORD': 'your_password',
-        'HOST': 'replica_host',
-        'PORT': '5432',
+        'NAME':  os.environ.get("POSTGRES_DATABASE"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
+        'HOST': os.environ.get("POSTGRES_HOST"),
+        'PORT': 5432
     }
 }
 

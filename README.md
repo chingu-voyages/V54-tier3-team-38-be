@@ -36,11 +36,7 @@ Before you begin, ensure you have the following installed on your system:
 
 ---
 
-### 🔹 Step 1: Clone the Repository
-
-git clone https://github.com/chingu-voyages/V54-tier3-team-38-be.git
-cd V54-tier3-team-38-be
-
+### 🔹 Step 1: Clone the Repository and set up environment variables
 
 
 ```bash
@@ -48,6 +44,12 @@ git clone https://github.com/chingu-voyages/V54-tier3-team-38-be.git
 cd V54-tier3-team-38-be
 
 ```
+
+Set up environment variables for the following on your system to point at the postgres database
+* POSTGRES_HOST
+* POSTGRES_DATABASE
+* POSTGRES_USER
+* POSTGRES_PASSWORD
 
 ### 🔹 Step 2: Set up a Virtual environment
 
@@ -60,9 +62,9 @@ python -m venv env_dndndb
 
 # Activate it
 # On macOS/Linux:
-source env_dndndb/bin/activate
+source env_dndndb\bin\activate
 # On Windows:
-env_dndndb\Scripts\activate
+env_dndndb/Scripts/activate
 
 
 ```bash
