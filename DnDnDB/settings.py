@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,10 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&hd7ph5y_sjo7q5npfjv2-n&!53_wob6(8vtm5j0bgfalr3a^3'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# SECURITY WARNING: don't run with debug turned on in production!
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'local')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+if ENVIRONMENT == 'local':
+    DEBUG = True
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get("RENDER_EXTERNAL_HOSTNAME", "")]
 
 
 # Application definition
@@ -45,9 +52,17 @@ INSTALLED_APPS = [
 
 APP_NAME = os.getenv("FLY_APP_NAME", None)
 
+MEDIA_URL = '/media/'
+
+if ENVIRONMENT == 'production':
+    MEDIA_ROOT = '/mnt/volume_mount/media'
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 CSRF_TRUSTED_ORIGINS = [
     f"https://{APP_NAME}.fly.dev",  # ✅ App nae
-    'https://art-social-seven.vercel.app'  # ✅ Add frontend domain
+    'https://DnDnDB.vercel.app'  # ✅ Add frontend domain
 ] if APP_NAME else []
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
