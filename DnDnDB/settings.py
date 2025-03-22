@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-&hd7ph5y_sjo7q5npfjv2-n&!53_wob6(8vtm5j0bgfalr3a^3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'v54-tier3-team-38-be.onrender.com']
 
 # Application definition
 
@@ -47,10 +46,14 @@ APP_NAME = os.getenv("FLY_APP_NAME", None)
 
 CSRF_TRUSTED_ORIGINS = [
     f"https://{APP_NAME}.fly.dev",  # ✅ App nae
-    'https://art-social-seven.vercel.app'  # ✅ Add frontend domain
+    'https://art-social-seven.vercel.app',  # ✅ Add frontend domain
+    "https://v54-tier3-team-38.onrender.com/"
 ] if APP_NAME else []
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+    'https://v54-tier3-team-38.onrender.com/',
+]
 CORS_ALLOW_METHODS = [
 'GET',
 'POST',
