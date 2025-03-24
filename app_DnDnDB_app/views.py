@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
@@ -45,3 +46,7 @@ class AssetViewSet(viewsets.ModelViewSet):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
     # permission_classes = [IsAuthenticatedOrReadOnly]  # ✅ Allows read access to everyone, but write access to authenticated users
+
+class HealthCheckView(viewsets.ModelViewSet):
+    def get(request, response):
+        return HttpResponse('Server responded, health is OK')

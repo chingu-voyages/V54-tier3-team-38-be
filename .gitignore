@@ -22,6 +22,9 @@ db.sqlite3
 local_settings.py
 .env
 
+# Assets
+assets/
+
 # VS Code settings
 .vscode/
 

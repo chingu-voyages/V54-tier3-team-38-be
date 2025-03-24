@@ -28,6 +28,8 @@ urlpatterns = [
 
     # ✅ Include ViewSet routes
     path('api/', include(router.urls)),
+
+    path('api/health', HealthCheckView.as_view({'get': 'get'}))
 ]
 
 # ✅ Serve media files in development mode
