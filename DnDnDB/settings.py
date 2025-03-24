@@ -62,10 +62,14 @@ else:
 
 CSRF_TRUSTED_ORIGINS = [
     f"https://{APP_NAME}.fly.dev",  # ✅ App nae
-    'https://DnDnDB.vercel.app'  # ✅ Add frontend domain
+    'https://DnDnDB.vercel.app',  # ✅ Add frontend domain
+    "https://v54-tier3-team-38.onrender.com/"
 ] if APP_NAME else []
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+    'https://v54-tier3-team-38.onrender.com/',
+]
 CORS_ALLOW_METHODS = [
 'GET',
 'POST',
