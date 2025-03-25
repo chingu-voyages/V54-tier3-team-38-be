@@ -49,7 +49,7 @@ CSRF_TRUSTED_ORIGINS = [
 ] if APP_NAME else []
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8080',
+    'http://localhost:5173',
     'https://v54-tier3-team-38.onrender.com',
 ]
 CORS_ALLOW_METHODS = [
@@ -82,7 +82,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'DnDnDB.urls'
+ROOT_URLCONF = 'app_DnDnDB_app.urls'
 
 TEMPLATES = [
     {
