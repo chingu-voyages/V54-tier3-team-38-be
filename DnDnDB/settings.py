@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 APP_NAME = os.getenv("FLY_APP_NAME", None)
 
 CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
     "https://v54-tier3-team-38.onrender.com"
 ] if APP_NAME else []
 
