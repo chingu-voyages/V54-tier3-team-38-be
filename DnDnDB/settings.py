@@ -12,8 +12,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
-load_dotenv()
+#should we put an if statement in
+
+if os.getenv("USE_DOTENV", "True").lower() in ("true", "1", "yes"):
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        print("⚠️ Warning: python-dotenv not installed. Skipping .env loading.")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
