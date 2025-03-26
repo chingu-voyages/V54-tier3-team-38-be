@@ -30,6 +30,8 @@ router.register(r'session-data', SessionDataViewSet, basename='session-data')
 router.register(r'assets', AssetViewSet, basename='asset')  # If Assets involve image uploads
 
 urlpatterns = [
+    path('api/health', health_check, name="health"),
+
     # ✅ Admin Panel
     path('admin/', admin.site.urls),
 

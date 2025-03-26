@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
+from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets, status
@@ -9,6 +10,9 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import SessionData
 from .serializers import *
+
+def health_check(request):
+    return JsonResponse({"status": "ok"})
 
 # get_serializer() function
 def get_serializer():
