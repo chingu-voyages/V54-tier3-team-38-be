@@ -46,11 +46,17 @@ INSTALLED_APPS = [
 APP_NAME = os.getenv("FLY_APP_NAME", None)
 
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{APP_NAME}.fly.dev",  # ✅ App nae
-    'https://art-social-seven.vercel.app'  # ✅ Add frontend domain
-] if APP_NAME else []
+    'http://localhost:5173',
+    "https://v54-tier3-team-38.onrender.com"
+] if APP_NAME else [
+    'http://localhost:5173',
+]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'https://v54-tier3-team-38.onrender.com',
+]
+
 CORS_ALLOW_METHODS = [
 'GET',
 'POST',
