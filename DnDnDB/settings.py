@@ -38,8 +38,7 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'v54-tier3-team-38-be.onrender.com']
 
 # Application definition
 
@@ -99,7 +98,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'DnDnDB.urls'
+ROOT_URLCONF = 'app_DnDnDB_app.urls'
 
 TEMPLATES = [
     {

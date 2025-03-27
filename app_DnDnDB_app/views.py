@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -32,8 +33,6 @@ def store_session_data(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # ✅ Class-Based API View
-
-
 class SessionDataViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows session data to be viewed or edited.
@@ -49,3 +48,20 @@ class AssetViewSet(viewsets.ModelViewSet):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
     # permission_classes = [IsAuthenticatedOrReadOnly]  # ✅ Allows read access to everyone, but write access to authenticated users
+
+class HealthCheckView(viewsets.ModelViewSet):
+    def get(request, response):
+        return HttpResponse('Server responded, health is OK')
+
+# Function-Based API View
+@api_view(['POST'])
+@permission_classes([AllowAny])  # Change to `IsAuthenticated` if needed
+def store_page_data(request):
+    """Stores incoming JSON page data"""
+    serializer = PageDataSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "Data stored successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
