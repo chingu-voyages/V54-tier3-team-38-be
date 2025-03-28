@@ -88,6 +88,7 @@ http://127.0.0.1:8000/
 
 - Erica Holden: [GitHub](https://github.com/ericadev) / [LinkedIn](https://linkedin.com/in/ericadev)
 - Eoin McDonnell [GitHub](https://github.com/oldmcdonnell) / [LinkedIn](https://linkedin.com/in/mcdonnell.eoin)
+- Danny Fromm [Github](https://github.com/dfromm91) / [LinkedIn](https://www.linkedin.com/in/daniel-fromm-297788274)
 
 ## 🌎 Deployment
 The backend will be deployed using Fly.io or another cloud provider. Stay tuned for updates.
