@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+#should we put an if statement in
+
+if os.getenv("USE_DOTENV", "True").lower() in ("true", "1", "yes"):
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        print("⚠️ Warning: python-dotenv not installed. Skipping .env loading.")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +29,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&hd7ph5y_sjo7q5npfjv2-n&!53_wob6(8vtm5j0bgfalr3a^3'
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    '@21$@op3w&vm)d2zi=l#ju#q7!1##^n_ta#73cnq_7&+n$cy)^'  # <- your generated dev key
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'v54-tier3-team-38-be.onrender.com']
 
 # Application definition
 
@@ -46,11 +57,17 @@ INSTALLED_APPS = [
 APP_NAME = os.getenv("FLY_APP_NAME", None)
 
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{APP_NAME}.fly.dev",  # ✅ App nae
-    'https://art-social-seven.vercel.app'  # ✅ Add frontend domain
-] if APP_NAME else []
+    'http://localhost:5173',
+    "https://v54-tier3-team-38.onrender.com"
+] if APP_NAME else [
+    'http://localhost:5173',
+]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8080']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'https://v54-tier3-team-38.onrender.com',
+]
+
 CORS_ALLOW_METHODS = [
 'GET',
 'POST',
@@ -81,7 +98,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'DnDnDB.urls'
+ROOT_URLCONF = 'app_DnDnDB_app.urls'
 
 TEMPLATES = [
     {
