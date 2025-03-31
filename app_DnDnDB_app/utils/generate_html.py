@@ -89,8 +89,6 @@ def generate_html(data):
 
     custom_tags_rule = ", ".join(tag_set) + " { display: block; }"
 
-    # Note: Instead of using fixed positioning and overflow:hidden,
-    # we now let the document scroll if the resolution is larger than the viewport.
     final_html = f"""<!DOCTYPE html>
 <html>
   <head>
