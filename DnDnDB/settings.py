@@ -14,12 +14,6 @@ from pathlib import Path
 import os
 #should we put an if statement in
 
-if os.getenv("USE_DOTENV", "True").lower() in ("true", "1", "yes"):
-    try:
-        from dotenv import load_dotenv
-        load_dotenv()
-    except ImportError:
-        print("⚠️ Warning: python-dotenv not installed. Skipping .env loading.")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,6 +28,7 @@ SECRET_KEY = os.getenv(
     '@21$@op3w&vm)d2zi=l#ju#q7!1##^n_ta#73cnq_7&+n$cy)^'  # <- your generated dev key
 )
 
+print("Loaded DB User:", os.environ.get("POSTGRES_USER"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,6 +82,9 @@ REST_FRAMEWORK = {
     ),
 }
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -98,7 +96,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'app_DnDnDB_app.urls'
+ROOT_URLCONF = 'DnDnDB.urls'
 
 TEMPLATES = [
     {
