@@ -14,12 +14,6 @@ from pathlib import Path
 import os
 #should we put an if statement in
 
-if os.getenv("USE_DOTENV", "True").lower() in ("true", "1", "yes"):
-    try:
-        from dotenv import load_dotenv
-        load_dotenv()
-    except ImportError:
-        print("⚠️ Warning: python-dotenv not installed. Skipping .env loading.")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,6 +81,9 @@ REST_FRAMEWORK = {
     ),
 }
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -98,7 +95,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'app_DnDnDB_app.urls'
+ROOT_URLCONF = 'DnDnDB.urls'
 
 TEMPLATES = [
     {
