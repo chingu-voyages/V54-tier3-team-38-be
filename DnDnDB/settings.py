@@ -28,7 +28,6 @@ SECRET_KEY = os.getenv(
     '@21$@op3w&vm)d2zi=l#ju#q7!1##^n_ta#73cnq_7&+n$cy)^'  # <- your generated dev key
 )
 
-print("Loaded DB User:", os.environ.get("POSTGRES_USER"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
