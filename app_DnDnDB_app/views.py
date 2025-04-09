@@ -42,12 +42,23 @@ class SessionDataViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]  # Adjust as needed
 
 class AssetViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows assets to be viewed or edited.
-    """
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
-    # permission_classes = [IsAuthenticatedOrReadOnly]  # ✅ Allows read access to everyone, but write access to authenticated users
+
+    def create(self, request, *args, **kwargs):
+        print(f"🪵 create() called with args: {args}, kwargs: {kwargs}")
+        print("📦 request.data:", dict(request.data))  # Shows what's coming from the frontend
+
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            print(f"✅ Asset created successfully: {serializer.data}")
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        
+        print("❌ Serializer errors:", serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class HealthCheckView(viewsets.ModelViewSet):
     def get(request, response):
