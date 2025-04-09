@@ -46,14 +46,14 @@ class AssetViewSet(viewsets.ModelViewSet):
     serializer_class = AssetSerializer
 
     def create(self, request, *args, **kwargs):
-        print(f"🪵 create() called with args: {args}, kwargs: {kwargs}")
-        print("📦 request.data:", dict(request.data))  # Shows what's coming from the frontend
+        # print(f"🪵 create() called with args: {args}, kwargs: {kwargs}")
+        # print("📦 request.data:", dict(request.data))  # Shows what's coming from the frontend
 
         serializer = self.get_serializer(data=request.data)
         
         if serializer.is_valid():
             self.perform_create(serializer)
-            print(f"✅ Asset created successfully: {serializer.data}")
+            # print(f"✅ Asset created successfully: {serializer.data}")
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         
