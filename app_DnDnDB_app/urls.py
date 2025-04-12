@@ -31,6 +31,7 @@ urlpatterns = [
 
     path('api/health', HealthCheckView.as_view({'get': 'get'})),
     path('api/page-data/', store_page_data, name='store_page_data'),
+    path('api/page-data/list/', list_page_data, name='list_page_data')
 ]
 
 # ✅ Serve media files in development mode

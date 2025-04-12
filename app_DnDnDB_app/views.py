@@ -55,13 +55,24 @@ class HealthCheckView(viewsets.ModelViewSet):
 
 # Function-Based API View
 @api_view(['POST'])
-@permission_classes([AllowAny])  # Change to `IsAuthenticated` if needed
+@permission_classes([AllowAny])
 def store_page_data(request):
-    """Stores incoming JSON page data"""
     serializer = PageDataSerializer(data=request.data)
-    
     if serializer.is_valid():
-        serializer.save()
-        return Response({"message": "Data stored successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
-    
+        instance = serializer.save()
+        instance.ip = request.META.get("REMOTE_ADDR")  # 👈 capture IP
+        instance.save()
+        return Response(
+            {"message": "Data stored successfully", "data": serializer.data},
+            status=status.HTTP_201_CREATED
+        )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def list_page_data(request):
+    client_ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR"))
+    pages = PageData.objects.filter(ip=client_ip)
+    serializer = PageDataSerializer(pages, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
