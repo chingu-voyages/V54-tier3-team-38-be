@@ -68,6 +68,25 @@ def store_page_data(request):
         )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    if x_forwarded_for:
+        return x_forwarded_for.split(",")[0].strip()
+    return request.META.get("REMOTE_ADDR")
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def list_page_data(request):
+    try:
+        client_ip = get_client_ip(request)
+        print("Client IP for list_page_data:", client_ip)
+        pages = PageData.objects.filter(ip=client_ip)
+        serializer = PageDataSerializer(pages, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        print("❌ Error in list_page_data:", e)
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 # @api_view(['GET'])
 # @permission_classes([AllowAny])
@@ -76,11 +95,12 @@ def store_page_data(request):
 #     pages = PageData.objects.filter(ip=client_ip)
 #     serializer = PageDataSerializer(pages, many=True)
 #     return Response(serializer.data, status=status.HTTP_200_OK)
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def list_page_data(request):
-    client_ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR"))
-    print("Client IP for list_page_data:", client_ip)  # ✅ Debug line
-    pages = PageData.objects.filter(ip=client_ip)
-    serializer = PageDataSerializer(pages, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def list_page_data(request):
+#     client_ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR"))
+#     print("Client IP for list_page_data:", client_ip)  # ✅ Debug line
+#     pages = PageData.objects.filter(ip=client_ip)
+#     serializer = PageDataSerializer(pages, many=True)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
