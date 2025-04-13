@@ -69,10 +69,18 @@ def store_page_data(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def list_page_data(request):
+#     client_ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR"))
+#     pages = PageData.objects.filter(ip=client_ip)
+#     serializer = PageDataSerializer(pages, many=True)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def list_page_data(request):
     client_ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR"))
+    print("Client IP for list_page_data:", client_ip)  # ✅ Debug line
     pages = PageData.objects.filter(ip=client_ip)
     serializer = PageDataSerializer(pages, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
