@@ -1,66 +1,47 @@
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.core.mail import send_mail
-from django.http import JsonResponse
-from django.utils.decorators import method_decorator
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes, parser_classes
-from rest_framework.parsers import MultiPartParser, FormParser
-from .models import SessionData
-from .serializers import *
+from rest_framework.decorators import api_view, permission_classes
+from .models import SessionData, Asset, PageData
+from .serializers import SessionDataSerializer, AssetSerializer, PageDataSerializer
+
 
 def health_check(request):
     return JsonResponse({"status": "ok"})
 
-# get_serializer() function
-def get_serializer():
-    return SessionDataSerializer
 
-# Function-Based API View
+# 🔧 Reusable utility for consistent IP detection
+def get_client_ip(request):
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    if x_forwarded_for:
+        return x_forwarded_for.split(",")[0].strip()
+    return request.META.get("REMOTE_ADDR")
+
+
+# ✅ API: Save a session
 @api_view(['POST'])
-@permission_classes([AllowAny])  # Change to `IsAuthenticated` if needed
+@permission_classes([AllowAny])
 def store_session_data(request):
-    """Stores incoming JSON session data"""
     serializer = SessionDataSerializer(data=request.data)
-    
     if serializer.is_valid():
         serializer.save()
-        return Response({"message": "Data stored successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
-    
+        return Response(
+            {"message": "Data stored successfully", "data": serializer.data},
+            status=status.HTTP_201_CREATED
+        )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# ✅ Class-Based API View
-class SessionDataViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows session data to be viewed or edited.
-    """
-    queryset = SessionData.objects.all()
-    serializer_class = SessionDataSerializer
-    permission_classes = [IsAuthenticated]  # Adjust as needed
 
-class AssetViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows assets to be viewed or edited.
-    """
-    queryset = Asset.objects.all()
-    serializer_class = AssetSerializer
-    # permission_classes = [IsAuthenticatedOrReadOnly]  # ✅ Allows read access to everyone, but write access to authenticated users
-
-class HealthCheckView(viewsets.ModelViewSet):
-    def get(request, response):
-        return HttpResponse('Server responded, health is OK')
-
-# Function-Based API View
+# ✅ API: Save a page (with IP)
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def store_page_data(request):
     serializer = PageDataSerializer(data=request.data)
     if serializer.is_valid():
         instance = serializer.save()
-        instance.ip = request.META.get("REMOTE_ADDR")  # 👈 capture IP
+        instance.ip = get_client_ip(request)
         instance.save()
         return Response(
             {"message": "Data stored successfully", "data": serializer.data},
@@ -68,18 +49,14 @@ def store_page_data(request):
         )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        return x_forwarded_for.split(",")[0].strip()
-    return request.META.get("REMOTE_ADDR")
 
+# ✅ API: List pages for current IP
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def list_page_data(request):
     try:
         client_ip = get_client_ip(request)
-        print("Client IP for list_page_data:", client_ip)
+        print("Client IP for list_page_data:", client_ip)  # ✅ Optional: Debug line
         pages = PageData.objects.filter(ip=client_ip)
         serializer = PageDataSerializer(pages, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -88,19 +65,19 @@ def list_page_data(request):
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-# @api_view(['GET'])
-# @permission_classes([AllowAny])
-# def list_page_data(request):
-#     client_ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR"))
-#     pages = PageData.objects.filter(ip=client_ip)
-#     serializer = PageDataSerializer(pages, many=True)
-#     return Response(serializer.data, status=status.HTTP_200_OK)
+# ✅ ViewSets for API endpoints
+class SessionDataViewSet(viewsets.ModelViewSet):
+    queryset = SessionData.objects.all()
+    serializer_class = SessionDataSerializer
+    permission_classes = [IsAuthenticated]
 
-# @api_view(['GET'])
-# @permission_classes([AllowAny])
-# def list_page_data(request):
-#     client_ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR"))
-#     print("Client IP for list_page_data:", client_ip)  # ✅ Debug line
-#     pages = PageData.objects.filter(ip=client_ip)
-#     serializer = PageDataSerializer(pages, many=True)
-#     return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AssetViewSet(viewsets.ModelViewSet):
+    queryset = Asset.objects.all()
+    serializer_class = AssetSerializer
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class HealthCheckView(viewsets.ModelViewSet):
+    def get(self, request):
+        return HttpResponse("Server responded, health is OK")
