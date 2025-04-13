@@ -27,6 +27,7 @@ urlpatterns = [
 
     # ✅ Include ViewSet routes
     path('api/', include(router.urls)),
+    path("api/assets/<int:pk>/", delete_asset, name="delete-asset"),
 
     path('api/health', HealthCheckView.as_view({'get': 'get'})),
     path('api/page-data/', store_page_data, name='store_page_data'),
